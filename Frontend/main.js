@@ -145,3 +145,33 @@ document.addEventListener("DOMContentLoaded", () => {
     mainPage.classList.add("visible");
   }, 4000);
 });
+
+document.getElementById("contact-form").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  let data = {
+      name: document.querySelector('input[name="user_name"]').value,
+      email: document.querySelector('input[name="user_email"]').value,
+      message: document.querySelector('textarea[name="message"]').value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxjLWHKpUPFwNYdb7eFrtCge4yrURgNcUdZKEK6NRebPVaF6nWfnGSBe1K-zWV0Iz209g/exec", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  })
+  .then(async (response) => {
+    const text = await response.text();
+    console.log("RAW RESPONSE:", text);
+
+    alert("Response from server: " + text);
+   })
+  .catch(error => {
+    alert("JS Error: " + error);
+    console.error(error);
+  });
+
+});
+
